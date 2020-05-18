@@ -36,4 +36,4 @@ RUN apt-get update && apt-get install -y curl && \
     && apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
 ENV PLAYWRIGHT_BROWSERS_PATH=/browsers
-RUN mkdir -p /tmp/playwright && npm install --no-save playwright@0.15.0 && cd / && rm -rf /tmp/playwright
+RUN mkdir -p /tmp/playwright && cd /tmp/playwright && npm install --no-save playwright@0.15.0 && cd / && cd / && rm -rf /tmp/playwright
