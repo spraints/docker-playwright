@@ -1,0 +1,6 @@
+#!/bin/bash
+
+cd "$(dirname "$0")/.."
+docker build --rm --force-rm -t spraints/playwright-test .
+
+docker run -it --rm -v $(pwd)/test:/test -w /test spraints/playwright-test bash -xec 'npm install && node smoke-test.js'
