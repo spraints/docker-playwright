@@ -1,14 +1,4 @@
-################################################
-# Compile with:
-#     sudo docker build -t microsoft/playwright:bionic -f Dockerfile.bionic .
-#
-# Run with:
-#     sudo docker run -d -p --rm --name playwright microsoft/playwright:bionic
-#
-#################################################
-
 FROM ubuntu:bionic
-
 
 # Install node, webkit deps, chromium deps, firefox deps.
 RUN apt-get update && apt-get install -y curl && \
@@ -45,5 +35,7 @@ RUN apt-get update && apt-get install -y curl && \
                        libxt6 \
     && apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
+ARG PLAYWRIGHT_VERSION=1.0.2
+
 ENV PLAYWRIGHT_BROWSERS_PATH=/browsers
-RUN mkdir -p /tmp/playwright && cd /tmp/playwright && npm install --no-save playwright@0.15.0 && cd / && cd / && rm -rf /tmp/playwright
+RUN mkdir -p /tmp/playwright && cd /tmp/playwright && npm install --no-save playwright@$PLAYWRIGHT_VERSION && cd / && cd / && rm -rf /tmp/playwright

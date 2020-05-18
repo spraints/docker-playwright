@@ -1,6 +1,20 @@
 #!/bin/bash
 
-cd "$(dirname "$0")/.."
-docker build --rm --force-rm -t spraints/playwright-test .
+set -e
 
-docker run -it --rm -v $(pwd)/test:/test -w /test spraints/playwright-test bash -xec 'npm install && node smoke-test.js'
+cd "$(dirname "$0")/.."
+
+version="$1"
+
+if [ -z "$version" ] || [ ! -d "$version" ]; then
+  echo Usage: test/run VERSION
+  exit 1
+fi
+
+docker build --rm --force-rm -t spraints/playwright-test "$version"
+
+docker run -it --rm \
+  -v $(pwd)/test:/testsrc:ro \
+  -w /test \
+  spraints/playwright-test \
+  bash -xec "cp -Rpv /testsrc/* . && npm install --save playwright@$version && node smoke-test.js"
